@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="学习笔记,">
+  <meta name="keywords" content="学习笔记,杂文,">
 
 
 
@@ -79,25 +79,26 @@
 
 
 
-<meta name="description" content="Fegin在微服务的实践过程中，Spring Cloud Ribbon 和 Spring Cloud Hystrix 通常一起使用。 Spring Cloud Feign 是对这两个基础工具的更高层次封装，在 Netflix Feign 的基础上扩展了对 Spring MVC 的注解支持，提供了一种声明式的 Web 服务客户端定义方式。 总到来说，Feign的源码实现的过程如下：   首先通过@E">
-<meta name="keywords" content="学习笔记">
+<meta name="description" content="一个空格引发的血案！！ 昨天搭完基本环境之后，测试了一下网关，发现网关无法转发goods服务了，以下是错误log:看来是zuul网关出了问题，接着往下看：显示是lmall-goods服务找不到，接着去网上找了zuul的网关原理，一般来说,zuul的配置文件是这样的： 1234567891011121314151617zuul: host:   connect-timeout-millis: 100">
+<meta name="keywords" content="学习笔记,杂文">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringCloud(2) 服务调用(Fegin)">
-<meta property="og:url" content="http://yoursite.com/2018/12/06/SpringCloud-2-Fegin/index.html">
+<meta property="og:title" content="Zuul网关路由失败">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/Zuul网关路由失败/index.html">
 <meta property="og:site_name" content="Hippiie">
-<meta property="og:description" content="Fegin在微服务的实践过程中，Spring Cloud Ribbon 和 Spring Cloud Hystrix 通常一起使用。 Spring Cloud Feign 是对这两个基础工具的更高层次封装，在 Netflix Feign 的基础上扩展了对 Spring MVC 的注解支持，提供了一种声明式的 Web 服务客户端定义方式。 总到来说，Feign的源码实现的过程如下：   首先通过@E">
+<meta property="og:description" content="一个空格引发的血案！！ 昨天搭完基本环境之后，测试了一下网关，发现网关无法转发goods服务了，以下是错误log:看来是zuul网关出了问题，接着往下看：显示是lmall-goods服务找不到，接着去网上找了zuul的网关原理，一般来说,zuul的配置文件是这样的： 1234567891011121314151617zuul: host:   connect-timeout-millis: 100">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079521/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%882.58.03.png">
-<meta property="og:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079679/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.01.07.png">
-<meta property="og:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079891/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.04.39.png">
-<meta property="og:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544080096/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.08.04.png">
-<meta property="og:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544080167/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.09.17.png">
-<meta property="og:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544080438/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.13.40.png">
-<meta property="og:updated_time" content="2018-12-06T07:15:29.897Z">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.24.26.png">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.26.05.png">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.31.42.png">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.35.03.png">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.37.23.png">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.39.04.png">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.40.14.png">
+<meta property="og:updated_time" content="2018-12-12T08:41:55.384Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SpringCloud(2) 服务调用(Fegin)">
-<meta name="twitter:description" content="Fegin在微服务的实践过程中，Spring Cloud Ribbon 和 Spring Cloud Hystrix 通常一起使用。 Spring Cloud Feign 是对这两个基础工具的更高层次封装，在 Netflix Feign 的基础上扩展了对 Spring MVC 的注解支持，提供了一种声明式的 Web 服务客户端定义方式。 总到来说，Feign的源码实现的过程如下：   首先通过@E">
-<meta name="twitter:image" content="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079521/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%882.58.03.png">
+<meta name="twitter:title" content="Zuul网关路由失败">
+<meta name="twitter:description" content="一个空格引发的血案！！ 昨天搭完基本环境之后，测试了一下网关，发现网关无法转发goods服务了，以下是错误log:看来是zuul网关出了问题，接着往下看：显示是lmall-goods服务找不到，接着去网上找了zuul的网关原理，一般来说,zuul的配置文件是这样的： 1234567891011121314151617zuul: host:   connect-timeout-millis: 100">
+<meta name="twitter:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.24.26.png">
 
 
 
@@ -127,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/06/SpringCloud-2-Fegin/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/Zuul网关路由失败/">
 
 
 
 
 
-  <title>SpringCloud(2) 服务调用(Fegin) | Hippiie</title>
+  <title>Zuul网关路由失败 | Hippiie</title>
   
 
 
@@ -260,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/06/SpringCloud-2-Fegin/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/Zuul网关路由失败/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Recky Wang">
@@ -277,7 +278,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SpringCloud(2) 服务调用(Fegin)</h1>
+          <h1 class="post-title" itemprop="name headline">Zuul网关路由失败</h1>
         
 
         <div class="post-meta">
@@ -289,8 +290,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-06T11:18:00+08:00">
-                2018-12-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-12T16:17:53+08:00">
+                2018-12-12
               </time>
             
 
@@ -312,7 +313,18 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/SpringCloud/" itemprop="url" rel="index">
+                  <a href="/categories/zuul/" itemprop="url" rel="index">
+                    <span itemprop="name">zuul</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/zuul/SpringCloud/" itemprop="url" rel="index">
                     <span itemprop="name">SpringCloud</span>
                   </a>
                 </span>
@@ -349,31 +361,14 @@
       
 
       
-        <h2 id="Fegin"><a href="#Fegin" class="headerlink" title="Fegin"></a>Fegin</h2><p>在微服务的实践过程中，Spring Cloud Ribbon 和 Spring Cloud Hystrix 通常一起使用。</p>
-<p>Spring Cloud Feign 是对这两个基础工具的更高层次封装，在 Netflix Feign 的基础上扩展了对 Spring MVC 的注解支持，提供了一种声明式的 Web 服务客户端定义方式。</p>
-<p>总到来说，Feign的源码实现的过程如下：</p>
-<blockquote>
-<ul>
-<li>首先通过@EnableFeignCleints注解开启FeignCleint</li>
-<li>根据Feign的规则实现接口，并加@FeignCleint注解</li>
-<li>程序启动后，会进行包扫描，扫描所有的@ FeignCleint的注解的类，并将这些信息注入到ioc容器中。</li>
-<li>当接口的方法被调用，通过jdk的代理，来生成具体RequesTemplate</li>
-<li>RequesTemplate在生成Request<br>-Request交给Client去处理，其中Client可以是HttpUrlConnection、HttpClient也可以是Okhttp</li>
-<li>最后Client被封装到LoadBalanceClient类，这个类结合类Ribbon做到了负载均衡。</li>
-</ul>
-</blockquote>
-<h2 id="Spring-Cloud-使用Fegin"><a href="#Spring-Cloud-使用Fegin" class="headerlink" title="Spring Cloud 使用Fegin"></a>Spring Cloud 使用Fegin</h2><p><strong><em>本项目将服务提供方与服务调用方统一的地方抽象出来</em></strong></p>
-<h3 id="创建统一接口"><a href="#创建统一接口" class="headerlink" title="创建统一接口"></a>创建统一接口</h3><p><strong><em>创建lmall-webapi模块，存放父接口，服务提供方与服务调用方都需要继承本模块中的接口</em></strong>。</p>
-<p>继承web依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
-<p>创建统一接口TestApiService<br><img src="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079521/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%882.58.03.png" alt=""></p>
-<h3 id="服务提供方"><a href="#服务提供方" class="headerlink" title="服务提供方"></a>服务提供方</h3><p>创建lmall-user模块，作为服务提供方，需要添加Eureka与Fegin依赖</p>
-<p>创建TestService方法接口，继承TestApiService接口，且方法要加上@RestController注解<br><img src="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079679/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.01.07.png" alt=""><br>在TestApiService中声明需要调用的方法，注意需要加上path路径，如果有参数，需要加上@RequestParam或者@RequestBody注解</p>
-<p>在TestServiceImpl实现方法<br><img src="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544079891/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.04.39.png" alt=""></p>
-<h3 id="服务调用方"><a href="#服务调用方" class="headerlink" title="服务调用方"></a>服务调用方</h3><p>创建lmall-goods模块，作为服务调用方，需要添加Eureka与Fegin依赖</p>
-<p>创建调用方接口TestClient，继承TestApiService，添加FeginClent注解，value中填入需要调用的服务的模块名称<br><img src="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544080096/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.08.04.png" alt=""></p>
-<p>在Controller中通过TestClient，调用TestService的服务<br><img src="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544080167/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.09.17.png" alt=""></p>
-<p>启动lmall-eureka,lmall-user,lmall-goods接口，访问test接口，可以看到服务调用成功。<br><img src="https://res.cloudinary.com/dqrfxh6hp/image/upload/v1544080438/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7_2018-12-06_%E4%B8%8B%E5%8D%883.13.40.png" alt=""></p>
+        <p><strong><em>一个空格引发的血案！！</em></strong></p>
+<p>昨天搭完基本环境之后，测试了一下网关，发现网关无法转发goods服务了，以下是错误log:<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.24.26.png" alt=""><br>看来是zuul网关出了问题，接着往下看：<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.26.05.png" alt=""><br>显示是lmall-goods服务找不到，接着去网上找了zuul的网关原理，一般来说,zuul的配置文件是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line"> host:</span><br><span class="line">   connect-timeout-millis: 10000</span><br><span class="line">   socket-timeout-millis: 60000</span><br><span class="line"> routes:</span><br><span class="line">   api-lmall-user:</span><br><span class="line">     path: /user/**</span><br><span class="line">     serviceID: lmall-user</span><br><span class="line">   api-lmall-goods:</span><br><span class="line">     path: /goods/**</span><br><span class="line">     url: lmall-goods</span><br><span class="line">   api-lmall-portal:</span><br><span class="line">     path: /portal/**</span><br><span class="line">     serviceID: lmall-portal</span><br><span class="line"></span><br><span class="line"> retryable: true</span><br><span class="line"> add-host-header: true</span><br></pre></td></tr></table></figure>
+<p>其中的serviceID就是在eureka中服务注册的application name，而application name默认就是在配置文件中填写的spring.application.name。</p>
+<p>登入eureka服务端口，观察注册信息。<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.31.42.png" alt=""><br>gateway服务和goods服务的application.name竟然都变成了lmall-dao。</p>
+<p>回去看代码，发现这两个模块都引入了lmall-dao模块的配置文件。</p>
+<p>application-common-local.yml:<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.35.03.png" alt=""><br>这里的spring.application.name就是lmall-dao,也就是说，这个名称覆盖了其他模块的名称，仔细观察发现，这里的配置应该是spring.datasource.application.name=lmall-dao。<br>改正之后：<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.37.23.png" alt=""><br>重启goods与gateway服务，登入注册中心：<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.39.04.png" alt=""><br>发现服务正常显示</p>
+<p>输入测试接口<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-12%20%E4%B8%8B%E5%8D%884.40.14.png" alt=""><br><strong><em>正常显示！！！</em></strong></p>
 
       
     </div>
@@ -393,6 +388,8 @@
           
             <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
           
+            <a href="/tags/杂文/" rel="tag"># 杂文</a>
+          
         </div>
       
 
@@ -404,8 +401,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/05/SpringCloud-1-搭建/" rel="next" title="SpringCloud(1)搭建环境">
-                <i class="fa fa-chevron-left"></i> SpringCloud(1)搭建环境
+              <a href="/2018/12/11/SpringCloud-3-Mybatis/" rel="next" title="SpringCloud(3) Mybatis">
+                <i class="fa fa-chevron-left"></i> SpringCloud(3) Mybatis
               </a>
             
           </div>
@@ -413,10 +410,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/11/SpringCloud-3-Mybatis/" rel="prev" title="SpringCloud(3) Mybatis">
-                SpringCloud(3) Mybatis <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -468,17 +461,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -548,22 +532,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Fegin"><span class="nav-number">1.</span> <span class="nav-text">Fegin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cloud-使用Fegin"><span class="nav-number">2.</span> <span class="nav-text">Spring Cloud 使用Fegin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建统一接口"><span class="nav-number">2.1.</span> <span class="nav-text">创建统一接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务提供方"><span class="nav-number">2.2.</span> <span class="nav-text">服务提供方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务调用方"><span class="nav-number">2.3.</span> <span class="nav-text">服务调用方</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
