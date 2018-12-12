@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="学习笔记,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="集成Mybatis的过程中，出现了很多问题，网上也没有完整的Mybatis与SpringCloud集成的文章，以及多模块化的配置，因此花费了很多时间。 Spring Cloud (2) 集成MybatisMybatisMybatis是目前非常流行的ORM框架，主要着力点在于 POJO 与 SQL 之间的映射关系。然后通过映射配置文件，将SQL所需的参数，以及返回的结果字段映射到指定 POJO 。">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud(3) Mybatis">
+<meta property="og:url" content="http://yoursite.com/2018/12/11/SpringCloud-3-Mybatis/index.html">
+<meta property="og:site_name" content="Hippiie">
+<meta property="og:description" content="集成Mybatis的过程中，出现了很多问题，网上也没有完整的Mybatis与SpringCloud集成的文章，以及多模块化的配置，因此花费了很多时间。 Spring Cloud (2) 集成MybatisMybatisMybatis是目前非常流行的ORM框架，主要着力点在于 POJO 与 SQL 之间的映射关系。然后通过映射配置文件，将SQL所需的参数，以及返回的结果字段映射到指定 POJO 。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-11%20%E4%B8%8B%E5%8D%883.24.51.png">
+<meta property="og:updated_time" content="2018-12-12T04:31:26.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud(3) Mybatis">
+<meta name="twitter:description" content="集成Mybatis的过程中，出现了很多问题，网上也没有完整的Mybatis与SpringCloud集成的文章，以及多模块化的配置，因此花费了很多时间。 Spring Cloud (2) 集成MybatisMybatisMybatis是目前非常流行的ORM框架，主要着力点在于 POJO 与 SQL 之间的映射关系。然后通过映射配置文件，将SQL所需的参数，以及返回的结果字段映射到指定 POJO 。">
+<meta name="twitter:image" content="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-11%20%E4%B8%8B%E5%8D%883.24.51.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/11/SpringCloud-3-Mybatis/">
+
+
+
+
+
+  <title>SpringCloud(3) Mybatis | Hippiie</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hippiie</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不会java的程序员</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/11/SpringCloud-3-Mybatis/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Recky Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hippiie">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringCloud(3) Mybatis</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-11T15:00:10+08:00">
+                2018-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringCloud/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringCloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>集成Mybatis的过程中，出现了很多问题，网上也没有完整的Mybatis与SpringCloud集成的文章，以及多模块化的配置，因此花费了很多时间。</p>
+<h2 id="Spring-Cloud-2-集成Mybatis"><a href="#Spring-Cloud-2-集成Mybatis" class="headerlink" title="Spring Cloud (2) 集成Mybatis"></a>Spring Cloud (2) 集成Mybatis</h2><h3 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h3><p>Mybatis是目前非常流行的ORM框架，主要着力点在于 POJO 与 SQL 之间的映射关系。然后通过映射配置文件，将SQL所需的参数，以及返回的结果字段映射到指定 POJO 。</p>
+<h4 id="Mybatis与Hibernate的区别"><a href="#Mybatis与Hibernate的区别" class="headerlink" title="Mybatis与Hibernate的区别"></a>Mybatis与Hibernate的区别</h4><h5 id="开发速度"><a href="#开发速度" class="headerlink" title="开发速度"></a>开发速度</h5><p>Mybatis相比于Hibernate要轻量许多，Hibernate对JDBC提供了较为完整的封装。</p>
+<p>Mybatis需要自己手动编写SQL语句，但使用Mybatis插件Mybatis Generator自动生成映射xml文件与mapper与pojo类，可以使用生成的example类进行很多查询操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TbUserExample tbUserExample = new TbUserExample();</span><br><span class="line">tbUserExample.createCriteria().andUsernameEqualTo(&quot;admin&quot;);</span><br><span class="line">List&lt;TbUser&gt; list = tbUsermapper.selectByExample(tbUserExample);</span><br></pre></td></tr></table></figure>
+<h5 id="数据库移植性"><a href="#数据库移植性" class="headerlink" title="数据库移植性"></a>数据库移植性</h5><p>Mybatis由于所有SQL都是依赖数据库书写的，所以扩展性，迁移性比较差。</p>
+<p>Hibernate与数据库具体的关联都在XML中，所以HQL对具体是用什么数据库并不是很关心。</p>
+<h5 id="缓存机制对比"><a href="#缓存机制对比" class="headerlink" title="缓存机制对比"></a>缓存机制对比</h5><h6 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h6><p>Hibernate和Mybatis的二级缓存除了采用系统默认的缓存机制外，都可以通过实现你自己的缓存或为其他第三方缓存方案，创建适配器来完全覆盖缓存行为。</p>
+<h6 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h6><p>Hibernate的二级缓存配置在SessionFactory生成的配置文件中进行详细配置，然后再在具体的表-对象映射中配置是那种缓存。</p>
+<p>MyBatis的二级缓存配置都是在每个具体的表-对象映射中进行详细配置，这样针对不同的表可以自定义不同的缓存机制。并且Mybatis可以在命名空间中共享相同的缓存配置和实例，通过Cache-ref来实现。</p>
+<h6 id="两者比较"><a href="#两者比较" class="headerlink" title="两者比较"></a>两者比较</h6><p>因为Hibernate对查询对象有着良好的管理机制，用户无需关心SQL。所以在使用二级缓存时如果出现脏数据，系统会报出错误并提示。而MyBatis在这一方面，使用二级缓存时需要特别小心。如果不能完全确定数据更新操作的波及范围，避免Cache的盲目使用。否则，脏数据的出现会给系统的正常运行带来很大的隐患。</p>
+<h5 id="对比总结"><a href="#对比总结" class="headerlink" title="对比总结"></a>对比总结</h5><p>Hibernate与MyBatis都可以是通过SessionFactoryBuider由XML配置文件生成SessionFactory，然后由SessionFactory 生成Session，最后由Session来开启执行事务和SQL语句。其中SessionFactoryBuider，SessionFactory，Session的生命周期都是差不多的。如下图所示：</p>
+<h3 id="Spring-Cloud集成Mybatis"><a href="#Spring-Cloud集成Mybatis" class="headerlink" title="Spring Cloud集成Mybatis"></a>Spring Cloud集成Mybatis</h3><h4 id="Maven-Profiles"><a href="#Maven-Profiles" class="headerlink" title="Maven Profiles"></a>Maven Profiles</h4><p>分环境使用配置文件,首先在父工程的pom文件中，添加以下内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;profiles&gt;</span><br><span class="line">      &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;local&lt;/id&gt;</span><br><span class="line">        &lt;activation&gt;</span><br><span class="line">            &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;</span><br><span class="line">        &lt;/activation&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profile-env&gt;local&lt;/profile-env&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">      &lt;/profile&gt;</span><br><span class="line">      &lt;profile&gt;</span><br><span class="line">         &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line">         &lt;activation&gt;</span><br><span class="line">            &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;</span><br><span class="line">         &lt;/activation&gt;</span><br><span class="line">         &lt;properties&gt;</span><br><span class="line">            &lt;profile-env&gt;dev&lt;/profile-env&gt;</span><br><span class="line">         &lt;/properties&gt;</span><br><span class="line">      &lt;/profile&gt;</span><br><span class="line">      &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;test&lt;/id&gt;</span><br><span class="line">        &lt;activation&gt;</span><br><span class="line">            &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;</span><br><span class="line">        &lt;/activation&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profile-env&gt;test&lt;/profile-env&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">      &lt;/profile&gt;</span><br><span class="line">&lt;/profiles&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到，点开Maven Projects，可以选取当前环境<br><img src="http://pjlwnclpj.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-12-11%20%E4%B8%8B%E5%8D%883.24.51.png" alt=""></p>
+<h4 id="建立Dao模块"><a href="#建立Dao模块" class="headerlink" title="建立Dao模块"></a>建立Dao模块</h4><p>新建数据库模块，并添加以下依赖（或直接在新建模块时，添加JDBC,Web,Mybatis）依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.didi.datainfra&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;dpp-common&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;tomcat-jdbc&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.zaxxer&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;HikariCP&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;dependency.version.mybatis-springboot&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.itfsw&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis-generator-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-validation&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;shiro-core&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+<p>新建generatirConfig.xml文件，加入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE generatorConfiguration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;generatorConfiguration&gt;</span><br><span class="line">    &lt;!-- 配置文件路径 --&gt;</span><br><span class="line">    &lt;!--&lt;properties resource=&quot;generatorConfig.properties&quot;/&gt;--&gt;</span><br><span class="line">    &lt;!--数据库驱动包路径 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;classPathEntry location=&quot;/Users/lyf/.m2/repository/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar&quot;/&gt;</span><br><span class="line">    &lt;!-- Example 目标包修改插件 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;context id=&quot;MySQLTables&quot; targetRuntime=&quot;MyBatis3&quot;&gt;</span><br><span class="line">        &lt;plugin type=&quot;com.itfsw.mybatis.generator.plugins.ExampleTargetPlugin&quot;&gt;</span><br><span class="line">            &lt;!-- 修改Example类生成到目标包下 --&gt;</span><br><span class="line">            &lt;property name=&quot;targetPackage&quot; value=&quot;com.didi.datainfra.platform.domain.example&quot;/&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">        &lt;plugin type=&quot;org.mybatis.generator.plugins.RowBoundsPlugin&quot;/&gt;</span><br><span class="line">        &lt;!--关闭注释 --&gt;</span><br><span class="line">        &lt;commentGenerator&gt;</span><br><span class="line">            &lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;suppressAllComments&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">        &lt;/commentGenerator&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--数据库连接信息 --&gt;</span><br><span class="line">        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot;</span><br><span class="line">                        connectionURL=&quot;jdbc:mysql://10.96.114.251/dpp_schema?useSSL=false&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&quot;</span><br><span class="line">                        userId=&quot;dpp&quot;</span><br><span class="line">                        password=&quot;654321&quot;&gt;</span><br><span class="line">        &lt;/jdbcConnection&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--生成的model 包路径 --&gt;</span><br><span class="line">        &lt;javaModelGenerator targetPackage=&quot;com.didi.datainfra.platform.domain&quot; targetProject=&quot;src/main/java&quot;&gt;</span><br><span class="line">        &lt;/javaModelGenerator&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--生成xml mapper文件 路径 --&gt;</span><br><span class="line">        &lt;sqlMapGenerator targetPackage=&quot;mybatis/mapper&quot; targetProject=&quot;src/main/resources&quot;&gt;</span><br><span class="line">        &lt;/sqlMapGenerator&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 生成的Dao接口 的包路径 --&gt;</span><br><span class="line">        &lt;!--&lt;javaClientGenerator type=&quot;XMLMAPPER&quot; targetPackage=&quot;com.didi.datainfra.platform.dao&quot;</span><br><span class="line">                             targetProject=&quot;src/main/java&quot;/&gt;--&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;!--对应数据库表名 --&gt;</span><br><span class="line">        &lt;table tableName=&quot;user&quot; enableCountByExample=&quot;true&quot; enableUpdateByExample=&quot;true&quot;</span><br><span class="line">               enableDeleteByExample=&quot;true&quot; enableSelectByExample=&quot;true&quot;</span><br><span class="line">               selectByExampleQueryId=&quot;false&quot;&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">      </span><br><span class="line">   </span><br><span class="line">    &lt;/context&gt;</span><br><span class="line"></span><br><span class="line">&lt;/generatorConfiguration&gt;</span><br></pre></td></tr></table></figure>
+<p>注意要修改数据库连接信息</p>
+<p><strong>注意，添加前确保已经添加mybatis-generator-plugin插件，否则配置文件无法使用</strong></p>
+<h5 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h5><p>修改配置文件名为application-common-local.yml,之后可以加入开发环境的dev配置和测试环境的test配置<br>添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mybatis:</span><br><span class="line">  mapper-locations: classpath:mybatis/*.xml ##xml文件存放地址</span><br><span class="line">  type-aliases-package: com.lmall.domain  ##pojo类存放地址</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    name: test</span><br><span class="line">    url: jdbc:mysql://wangbowen0223.mysql.rds.aliyuncs.com:3306/lmall_v1?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</span><br><span class="line">    username: wangbowen</span><br><span class="line">    password: WANGbowen0223</span><br><span class="line">    driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">  application:</span><br><span class="line">    name: lmall-dao</span><br></pre></td></tr></table></figure>
+<p>url里对应的是数据库的主机地址和端口号，username和password对应的是用户名和密码。</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>测试lmall-goods模块中是否可以使用mybatis<br>修改lmall-goods的配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 9002</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: lmall-goods</span><br><span class="line">  profiles:</span><br><span class="line">    active: goods-@profile-env@</span><br><span class="line">    include: common-@profile-env@</span><br></pre></td></tr></table></figure>
+<p>新添application-goods-local.yml文件,加入以下内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:9000/eureka/</span><br></pre></td></tr></table></figure>
+<p>在测试文件中编写测试代码</p>
+<p>DaoServiceImpl.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class DaoServiceImpl implements DaoService &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private TbUserMapper mapper;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public TbUser getTbUser() &#123;</span><br><span class="line">        TbUserExample example = new TbUserExample();</span><br><span class="line">        example.createCriteria().andUsernameEqualTo(&quot;admin&quot;);</span><br><span class="line">        return mapper.selectByExample(example).get(0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LmallGoodsApplicationTests.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest(classes = LmallGoodsApplication.class )</span><br><span class="line">public class LmallGoodsApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private DaoService daoService;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(daoService.getTbUser().getPhone());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运用，成功查询到数据！</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><blockquote>
+<ul>
+<li>在使用dao层的模块中，一定要在pom.xml依赖dao层，否则无法使用dao层的文件</li>
+<li>多环境配置，配置文件的格式一定要类似于application-common-local.yml这样的格式，在使用别的模块的配置文件时，就可以直接spring:profiles:include:<br>common-local。使用这种方法，可以把公共配置，比如数据库连接信息，提取出来，否则每个模块中都得配置。</li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/06/SpringCloud-2-Fegin/" rel="next" title="SpringCloud(2) 服务调用(Fegin)">
+                <i class="fa fa-chevron-left"></i> SpringCloud(2) 服务调用(Fegin)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Recky Wang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hippiie223" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cloud-2-集成Mybatis"><span class="nav-number">1.</span> <span class="nav-text">Spring Cloud (2) 集成Mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mybatis"><span class="nav-number">1.1.</span> <span class="nav-text">Mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mybatis与Hibernate的区别"><span class="nav-number">1.1.1.</span> <span class="nav-text">Mybatis与Hibernate的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#开发速度"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">开发速度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库移植性"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">数据库移植性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缓存机制对比"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">缓存机制对比</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#相同点"><span class="nav-number">1.1.1.3.1.</span> <span class="nav-text">相同点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#不同点"><span class="nav-number">1.1.1.3.2.</span> <span class="nav-text">不同点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#两者比较"><span class="nav-number">1.1.1.3.3.</span> <span class="nav-text">两者比较</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对比总结"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">对比总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud集成Mybatis"><span class="nav-number">1.2.</span> <span class="nav-text">Spring Cloud集成Mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Maven-Profiles"><span class="nav-number">1.2.1.</span> <span class="nav-text">Maven Profiles</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立Dao模块"><span class="nav-number">1.2.2.</span> <span class="nav-text">建立Dao模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#修改配置文件"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">1.2.3.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Recky Wang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
